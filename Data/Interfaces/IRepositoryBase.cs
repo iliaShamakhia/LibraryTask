@@ -12,7 +12,7 @@ namespace Data.Interfaces
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(int id);
         Task Create(T entity);
-        Task DeleteByIdAsync(int id);
+        Task Delete(int id);
         Task Update(T entity);
     }
 }

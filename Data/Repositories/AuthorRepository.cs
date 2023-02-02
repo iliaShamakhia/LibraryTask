@@ -24,7 +24,7 @@ namespace Data.Repositories
             await _context.Authors.AddAsync(entity);
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public async Task Delete(int id)
         {
             var author = await _context.Authors.FindAsync(id);
 
