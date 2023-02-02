@@ -22,6 +22,7 @@ namespace Data.Repositories
         public async Task Create(Author entity)
         {
             await _context.Authors.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
@@ -31,6 +32,7 @@ namespace Data.Repositories
             if (author == null) return;
 
             _context.Authors.Remove(author);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Author>> GetAllAsync()
@@ -40,13 +42,13 @@ namespace Data.Repositories
                  .ToListAsync();
         }
 
-        public async Task<Author> GetByIdAsync(int id)
+        public async Task<Author?> GetByIdAsync(int id)
         {
             var author = await _context.Authors.FindAsync(id);
 
             if (author == null)
             {
-                throw new NullReferenceException();
+                return null;
             };
 
             return author;
@@ -67,6 +69,7 @@ namespace Data.Repositories
             author.Books = entity.Books;
 
             _context.Authors.Update(author);
+            await _context.SaveChangesAsync();
         }
     }
 }

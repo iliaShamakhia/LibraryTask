@@ -1,14 +1,8 @@
-﻿using Microsoft.VisualBasic;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Data.Entities;
 
-namespace Data.Entities
+namespace WebApi.DTOs
 {
-    public class Book
+    public class BookDTO
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -17,7 +11,6 @@ namespace Data.Entities
         public double Rating { get; set; }
         public DateTime PublishDate { get; set; }
         public bool IsAvailable { get; set; }
-        public ICollection<Author> Authors { get; set; }
-
+        public ICollection<AuthorDTO> Authors { get; set; }
     }
 }
