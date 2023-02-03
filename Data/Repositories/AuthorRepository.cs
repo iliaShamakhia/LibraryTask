@@ -1,4 +1,5 @@
 ﻿using Data.Context;
+using Data.DTOs;
 using Data.Entities;
 using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -37,12 +38,13 @@ namespace Data.Repositories
 
         public async Task<IEnumerable<Author>> GetAllAsync()
         {
-            return await _context.Authors
-                 .Include(a => a.Books)
-                 .ToListAsync();
+            throw new NotImplementedException();
+            //return await _context.Authors
+            //     .Include(a => a.Books)
+            //     .ToListAsync();
         }
 
-        public async Task<Author?> GetByIdAsync(int id)
+        public async Task<Author> GetByIdAsync(int id)
         {
             var author = await _context.Authors.FindAsync(id);
 

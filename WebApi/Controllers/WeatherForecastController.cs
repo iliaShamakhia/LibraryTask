@@ -1,11 +1,11 @@
 using AutoMapper;
 using Data.Context;
+using Data.DTOs;
 using Data.Entities;
 using Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using WebApi.DTOs;
 
 namespace WebApi.Controllers
 {
@@ -16,12 +16,10 @@ namespace WebApi.Controllers
         
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly BookRepository _bookrepo;
-        private readonly IMapper _mapper;
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, BookRepository bookrepo, IMapper mapper)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, BookRepository bookrepo)
         {
             _logger = logger;
             _bookrepo = bookrepo;
-            _mapper = mapper;
         }
 
         [HttpDelete("{id}")]
@@ -35,8 +33,8 @@ namespace WebApi.Controllers
         public async Task<ActionResult<IEnumerable<BookDTO>>> Get()
         {
             var books = await _bookrepo.GetAllAsync();
-            
-            return Ok(_mapper.Map<IEnumerable<Book>, IEnumerable<BookDTO>>(books));
+
+            return Ok(books);
         }
 
         [HttpGet("{id}", Name = "BookById")]
@@ -44,7 +42,7 @@ namespace WebApi.Controllers
         {
             var book = await _bookrepo.GetByIdAsync(id);
             
-            return Ok(_mapper.Map<BookDTO>(book));
+            return Ok(book);
         }
 
         [HttpPut("{id}")]
@@ -57,7 +55,7 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            await _bookrepo.Update(_mapper.Map<Book>(value));
+            await _bookrepo.Update(value);
 
             return NoContent();
         }
@@ -66,7 +64,7 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] BookDTO value)
         {
-            await _bookrepo.Create(_mapper.Map<Book>(value));
+            await _bookrepo.Create(value);
             return Ok();
             
         }

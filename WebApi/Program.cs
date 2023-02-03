@@ -2,7 +2,6 @@ using AutoMapper;
 using Data.Context;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using WebApi.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,14 +17,6 @@ builder.Services.AddDbContext<LibraryDbContext>(options =>
 
 builder.Services.AddScoped<BookRepository>();
 
-var mapperConfiguration = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new AutoMapperProfile());
-});
-
-IMapper mapper = mapperConfiguration.CreateMapper();
-
-builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 

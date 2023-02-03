@@ -15,6 +15,24 @@ namespace Data.Context
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BookAuthor>()
+               .HasKey(x => new { x.BookId, x.AuthorId });
+
+            //If you name your foreign keys correctly, then you don't need this.
+            modelBuilder.Entity<BookAuthor>()
+                .HasOne(pt => pt.Book)
+                .WithMany(p => p.Authors)
+                .HasForeignKey(pt => pt.BookId);
+
+            modelBuilder.Entity<BookAuthor>()
+                .HasOne(pt => pt.Author)
+                .WithMany(t => t.Books)
+                .HasForeignKey(pt => pt.AuthorId);
+        }
+
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data.DTOs;
+using Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,7 +12,7 @@ namespace Data.Interfaces
     public interface IRepositoryBase<T>
     {
         Task<IEnumerable<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(int id);
         Task Create(T entity);
         Task Delete(int id);
         Task Update(T entity);

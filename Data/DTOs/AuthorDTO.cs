@@ -1,6 +1,6 @@
 ﻿using Data.Entities;
 
-namespace WebApi.DTOs
+namespace Data.DTOs
 {
     public class AuthorDTO
     {
@@ -8,6 +8,5 @@ namespace WebApi.DTOs
         public string Name { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;
         public DateTime BirthYear { get; set; }
-        public ICollection<string> BookTitles { get; set; }
     }
 }

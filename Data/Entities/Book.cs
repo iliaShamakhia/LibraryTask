@@ -17,7 +17,7 @@ namespace Data.Entities
         public double Rating { get; set; }
         public DateTime PublishDate { get; set; }
         public bool IsAvailable { get; set; }
-        public ICollection<Author> Authors { get; set; }
+        public ICollection<BookAuthor> Authors { get; set; }
 
     }
 }

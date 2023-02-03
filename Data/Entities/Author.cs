@@ -12,6 +12,6 @@ namespace Data.Entities
         public string Name { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;
         public DateTime BirthYear { get; set; }
-        public ICollection<Book> Books { get; set; }
+        public ICollection<BookAuthor> Books { get; set; }
     }
 }

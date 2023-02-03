@@ -1,6 +1,6 @@
 ﻿using Data.Entities;
 
-namespace WebApi.DTOs
+namespace Data.DTOs
 {
     public class BookDTO
     {
