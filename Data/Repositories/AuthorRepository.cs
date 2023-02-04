@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Data.Repositories
 {
-    public class AuthorRepository : IRepositoryBase<Author>
+    public class AuthorRepository : IRepositoryBase<AuthorDTO>
     {
         private readonly LibraryDbContext _context;
 
@@ -20,9 +20,15 @@ namespace Data.Repositories
             _context = context;
         }
 
-        public async Task Create(Author entity)
+        public async Task Create(AuthorDTO entity)
         {
-            await _context.Authors.AddAsync(entity);
+            var author = new Author
+            {
+                Name = entity.Name,
+                Surname = entity.Surname,
+                BirthYear = entity.BirthYear
+            };
+            await _context.Authors.AddAsync(author);
             await _context.SaveChangesAsync();
         }
 
@@ -36,15 +42,20 @@ namespace Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Author>> GetAllAsync()
+        public async Task<IEnumerable<AuthorDTO>> GetAllAsync()
         {
-            throw new NotImplementedException();
-            //return await _context.Authors
-            //     .Include(a => a.Books)
-            //     .ToListAsync();
+            var authors = await _context.Authors.ToListAsync();
+
+            return authors.Select(a => new AuthorDTO
+            {
+                Id = a.Id,
+                Name = a.Name,
+                Surname = a.Surname,
+                BirthYear = a.BirthYear
+            });
         }
 
-        public async Task<Author> GetByIdAsync(int id)
+        public async Task<AuthorDTO> GetByIdAsync(int id)
         {
             var author = await _context.Authors.FindAsync(id);
 
@@ -53,22 +64,27 @@ namespace Data.Repositories
                 return null;
             };
 
-            return author;
+            return new AuthorDTO
+            {
+                Id = author.Id,
+                Name = author.Name,
+                Surname = author.Surname,
+                BirthYear = author.BirthYear
+            };
         }
 
-        public async Task Update(Author entity)
+        public async Task Update(AuthorDTO entity)
         {
             var author = await _context.Authors.FindAsync(entity.Id);
 
             if(author == null)
             {
-                throw new NullReferenceException();
+                return;
             }
 
             author.Name = entity.Name;
             author.Surname = entity.Surname;
             author.BirthYear = entity.BirthYear;
-            author.Books = entity.Books;
 
             _context.Authors.Update(author);
             await _context.SaveChangesAsync();

@@ -1,24 +1,16 @@
-using AutoMapper;
-using Data.Context;
-using Data.DTOs;
-using Data.Entities;
+﻿using Data.DTOs;
 using Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class BooksController : ControllerBase
     {
-        
-        private readonly ILogger<WeatherForecastController> _logger;
         private readonly BookRepository _bookrepo;
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, BookRepository bookrepo)
+        public BooksController( BookRepository bookrepo)
         {
-            _logger = logger;
             _bookrepo = bookrepo;
         }
 
@@ -41,7 +33,12 @@ namespace WebApi.Controllers
         public async Task<ActionResult<BookDTO>> GetById(int id)
         {
             var book = await _bookrepo.GetByIdAsync(id);
-            
+
+            if(book == null)
+            {
+                return NotFound();
+            }
+
             return Ok(book);
         }
 
@@ -65,8 +62,8 @@ namespace WebApi.Controllers
         public async Task<ActionResult> Add([FromBody] BookDTO value)
         {
             await _bookrepo.Create(value);
-            return Ok();
-            
+            return CreatedAtRoute("BookById",value.Id, value);
+
         }
     }
 }

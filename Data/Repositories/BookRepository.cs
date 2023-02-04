@@ -3,11 +3,6 @@ using Data.DTOs;
 using Data.Entities;
 using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Repositories
 {
@@ -30,9 +25,8 @@ namespace Data.Repositories
                 ImageUrl = entity.ImageUrl,
                 IsAvailable = entity.IsAvailable,
                 Rating = entity.Rating,
+                Authors = new List<BookAuthor>()
             };
-
-            var authors = new List<BookAuthor>();
 
             foreach (var item in entity.Authors)
             {
@@ -42,13 +36,13 @@ namespace Data.Repositories
                     Surname = item.Surname,
                     BirthYear = item.BirthYear
                 };
-                authors.Add(new BookAuthor
+                book.Authors.Add(new BookAuthor
                 {
                     Author = author,
                     Book = book
                 });
             }
-            book.Authors = authors;
+
             await _context.Books.AddAsync(book);
             await _context.SaveChangesAsync();
         }
@@ -161,19 +155,6 @@ namespace Data.Repositories
                         Author = author,
                         Book = book
                     });
-                }
-            }
-
-            foreach (var auth in entity.Authors)
-            {
-                foreach (var a in book.Authors)
-                {
-                    if (a.Author.Id == auth.Id)
-                    {
-                        a.Author.Name = auth.Name;
-                        a.Author.Surname = auth.Surname;
-                        a.Author.BirthYear = auth.BirthYear;
-                    }
                 }
             }
 

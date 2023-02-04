@@ -1,4 +1,3 @@
-using AutoMapper;
 using Data.Context;
 using Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +15,7 @@ builder.Services.AddDbContext<LibraryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<AuthorRepository>();
 
 
 var app = builder.Build();
