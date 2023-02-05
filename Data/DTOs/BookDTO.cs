@@ -1,6 +1,4 @@
-﻿using Data.Entities;
-
-namespace Data.DTOs
+﻿namespace Data.DTOs
 {
     public class BookDTO
     {
