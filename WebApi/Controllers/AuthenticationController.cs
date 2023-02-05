@@ -38,7 +38,7 @@ namespace WebApi.Controllers
                 LastName = model.LastName,
                 Email = model.Email,
                 UserName = model.UserName,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString() + "-" + Guid.NewGuid().ToString()
             };
 
             var result = await _userManager.CreateAsync(newUser, model.Password);
