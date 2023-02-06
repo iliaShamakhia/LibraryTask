@@ -1,11 +1,24 @@
 import './App.css';
-import {Route, Routes, Link} from 'react-router-dom';
+import { Route, Routes, Link, useNavigate } from 'react-router-dom';
 import Books from './components/Books';
 import Authors from './components/Authors';
 import SignIn from './components/SignIn';
 import Register from './components/Register';
+import { isAuthenticated, getUserName, logout } from './helpers/authentication';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [username, setUserName] = useState("");
+  const navigate = useNavigate();
+  const hasLoggedIn = isAuthenticated();
+  const logOut = () => {
+    setUserName("");
+    logout();
+    navigate('/');
+  }
+  useEffect(() => {
+    
+  },[username])
   return (
     <div className="App">
       <nav className="navbar navbar-expand-lg navbar-light bg-light container">
@@ -19,25 +32,24 @@ function App() {
                 <Link className="nav-link" to='/'>Books</Link>
               </li>
               <li className="nav-item">
-              <Link className="nav-link" to='authors'>Authors</Link>
+                <Link className="nav-link" to='authors'>Authors</Link>
               </li>
             </ul>
             <div>
-            <ul className="navbar-nav ml-auto">
-              <li /* *ngIf="isAuthenticated()" */ className="nav-link text-dark">{/* {fullName} */}</li>
-              <li /* *ngIf="isAuthenticated()" */ type="button" className="nav-link text-dark" /* (click)="logOut()" */></li>
-             {/*  <li *ngIf="!isAuthenticated()" type="button" className="nav-link text-dark">Sign in</li> */}
-              <Link className="nav-link" to='login'>Log in</Link>
-            </ul>
-          </div>
+              <ul className="navbar-nav ml-auto">
+                {hasLoggedIn && <li className="nav-link text-dark">logged in as {getUserName()}</li>}
+                {hasLoggedIn && <li type="button" className="nav-link text-dark" onClick={logOut}>Log out</li>}
+                {!hasLoggedIn && <Link className="nav-link" to='login'>Log in</Link>}
+              </ul>
+            </div>
           </div>
         </div>
       </nav>
       <Routes>
-        <Route path="/" element={<Books/>}/>
-        <Route path="authors" element={<Authors/>}/>
-        <Route path="login" element={<SignIn/>}/>
-        <Route path="register" element={<Register/>}/>
+        <Route path="/" element={<Books />} />
+        <Route path="authors" element={<Authors />} />
+        <Route path="login" element={<SignIn setUserName={setUserName}/>} />
+        <Route path="register" element={<Register />} />
       </Routes>
     </div>
   );

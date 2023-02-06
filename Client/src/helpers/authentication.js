@@ -1,5 +1,7 @@
 import { isExpired } from "react-jwt";
 
+const baseApiUrl = 'https://localhost:7160/api/Authentication/';
+
 const isAuthenticated = () => {
     let token = localStorage.getItem("jwt");
     if (token && !isExpired(token)) {
@@ -9,7 +11,7 @@ const isAuthenticated = () => {
     }
 }
 
-const getUsername = () => {
+const getUserName = () => {
     let jwt = localStorage.getItem('jwt');
     const userNameClaim = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
     if (jwt != null) {
@@ -20,16 +22,28 @@ const getUsername = () => {
 }
 
 const login = (user) => {
-    return;
+    return fetch(`${baseApiUrl}login`, {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    })
 }
 
 const register = (user) => {
-    return;
+    return fetch(`${baseApiUrl}register`, {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    });
 }
 
 const logout = () => {
     localStorage.removeItem("jwt");
-    localStorage.removeItem("fullName");
+    localStorage.removeItem("userName");
 }
 
-export { isAuthenticated, getUsername, login, register, logout }
+export { isAuthenticated, getUserName, login, register, logout }

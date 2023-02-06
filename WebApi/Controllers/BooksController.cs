@@ -62,8 +62,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult> Add([FromBody] BookDTO value)
         {
             await _bookrepo.Create(value);
-            return CreatedAtRoute("BookById",value.Id, value);
-
+            return Ok();
         }
     }
 }

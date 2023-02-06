@@ -1,11 +1,9 @@
 import{ useState } from 'react';
+import { register } from '../helpers/authentication';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
-    /* const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [username, setUserName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState(""); */
+    const navigate = useNavigate();
     const [user,setUser] = useState({
             firstName : "",
             lastName : "",
@@ -22,13 +20,14 @@ function Register() {
         })
     }
 
-    const handleSubmit = () => {
-        var newUser
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        register(user).then(() => navigate('/login')).catch(err => console.log(err));
     }
 
     return (
         <div className="container w-25">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <div className="mb-3">
                     <label htmlFor="firstname" className="form-label">First Name</label>
                     <input type="text" name='firstName' className="form-control" id="firstname" value={user.firstName} onChange={e =>handleChange(e)}></input>
