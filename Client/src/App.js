@@ -6,6 +6,7 @@ import SignIn from './components/SignIn';
 import Register from './components/Register';
 import { isAuthenticated, getUserName, logout } from './helpers/authentication';
 import { useEffect, useState } from 'react';
+import AddBook from './components/AddBook';
 
 function App() {
   const [username, setUserName] = useState("");
@@ -50,6 +51,7 @@ function App() {
         <Route path="authors" element={<Authors />} />
         <Route path="login" element={<SignIn setUserName={setUserName}/>} />
         <Route path="register" element={<Register />} />
+        <Route path="addBook" element={<AddBook />}/>
       </Routes>
     </div>
   );

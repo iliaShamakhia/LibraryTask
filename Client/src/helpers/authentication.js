@@ -1,6 +1,7 @@
 import { isExpired } from "react-jwt";
+import { baseApiUrl } from "./globals";
 
-const baseApiUrl = 'https://localhost:7160/api/Authentication/';
+const url = `${baseApiUrl}Authentication/`;
 
 const isAuthenticated = () => {
     let token = localStorage.getItem("jwt");
@@ -22,7 +23,7 @@ const getUserName = () => {
 }
 
 const login = (user) => {
-    return fetch(`${baseApiUrl}login`, {
+    return fetch(`${url}login`, {
         method: "POST",
         body: JSON.stringify(user),
         headers: {
@@ -32,7 +33,7 @@ const login = (user) => {
 }
 
 const register = (user) => {
-    return fetch(`${baseApiUrl}register`, {
+    return fetch(`${url}register`, {
         method: "POST",
         body: JSON.stringify(user),
         headers: {
