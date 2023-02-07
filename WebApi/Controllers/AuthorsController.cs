@@ -1,5 +1,6 @@
 ﻿using Data.DTOs;
 using Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -14,6 +15,7 @@ namespace WebApi.Controllers
             _authorRepo = authorRepo;
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -42,6 +44,7 @@ namespace WebApi.Controllers
             return Ok(author);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] AuthorDTO value)
         {
@@ -58,11 +61,12 @@ namespace WebApi.Controllers
         }
 
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] AuthorDTO value)
         {
             await _authorRepo.Create(value);
-            return CreatedAtRoute("AuthorById", value.Id, value);
+            return Ok();
 
         }
     }

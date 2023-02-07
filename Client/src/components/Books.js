@@ -19,7 +19,7 @@ function Books() {
       </div>
       {books.map(b => <div className="cards" key={b.id}>
         <div className="card">
-          <h5 className="card-header">{b.title}</h5>
+          <Link className="card-header" to={`/books/${b.id}`} state={b}>{b.title}</Link>
           <div className="card-container">
             <div className="imgBox">
               <img className="card-img-top" src={b.imageUrl} alt="book-cover"></img>

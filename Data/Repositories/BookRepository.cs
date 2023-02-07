@@ -17,6 +17,12 @@ namespace Data.Repositories
 
         public async Task Create(BookDTO entity)
         {
+            var inDb = _context.Books.FirstOrDefault(b => b.Title == entity.Title);
+
+            if(inDb != null){
+                return;
+            }
+            
             var book = new Book
             {
                 Title = entity.Title,

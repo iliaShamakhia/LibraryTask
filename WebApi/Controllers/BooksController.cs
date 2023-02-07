@@ -1,5 +1,6 @@
 ﻿using Data.DTOs;
 using Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -14,6 +15,7 @@ namespace WebApi.Controllers
             _bookrepo = bookrepo;
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -42,6 +44,7 @@ namespace WebApi.Controllers
             return Ok(book);
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] BookDTO value)
         {
@@ -57,7 +60,7 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
-
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] BookDTO value)
         {

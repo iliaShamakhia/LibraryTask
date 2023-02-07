@@ -7,7 +7,28 @@ const getBooks = () => {
 }
 
 const getSingleBook = (id) => {
-    return fetch(`${url}id`);
+    return fetch(`${url}${id}`);
+}
+
+const deleteBook = (id) => {
+    return fetch(`${url}${id}`, {
+        method: "DELETE",
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    });
+}
+
+const editBook = (book) => {
+    return fetch(`${url}${book.id}`, {
+        method: "PUT",
+        body: JSON.stringify(book),
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    });
 }
 
 const addBook = (book) => {
@@ -15,10 +36,10 @@ const addBook = (book) => {
         method: "POST",
         body: JSON.stringify(book),
         headers: {
-            /* 'Authorization': `Bearer ${localStorage.getItem("jwt")}`, */
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
             "Content-type": "application/json; charset=UTF-8"
         }
     });
 }
 
-export { getBooks, getSingleBook, addBook }
+export { getBooks, getSingleBook, addBook, deleteBook, editBook }
