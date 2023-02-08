@@ -17,6 +17,17 @@ const addAuthor = (author) => {
     });
 }
 
+const editAuthor = (author) => {
+    return fetch(`${url}${author.id}`, {
+        method: "PUT",
+        body: JSON.stringify(author),
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    });
+}
+
 const deleteAuthor = (id) => {
     return fetch(`${url}${id}`, {
         method: "DELETE",
@@ -27,4 +38,4 @@ const deleteAuthor = (id) => {
     });
 }
 
-export { getAuthors, addAuthor, deleteAuthor }
+export { getAuthors, addAuthor, editAuthor, deleteAuthor }

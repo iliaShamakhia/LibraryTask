@@ -11,6 +11,7 @@ import BookDetail from './components/BookDetail';
 import EditBook from './components/EditBook';
 import AuthorDetail from './components/AuthorDetail';
 import AddAuthor from './components/AddAuthor';
+import EditAuthor from './components/EditAuthor';
 
 function App() {
   const [username, setUserName] = useState("");
@@ -55,7 +56,7 @@ function App() {
         <Route path="authors" element={<Authors />} />
         <Route path="addAuthor" element={<AddAuthor />}/>
         <Route path="/authors/:id" element={<AuthorDetail />} />
-        <Route path="/authors/edit/:id" element={<AuthorDetail />} />
+        <Route path="/authors/edit/:id" element={<EditAuthor />} />
         <Route path="login" element={<SignIn setUserName={setUserName}/>} />
         <Route path="register" element={<Register />} />
         <Route path="addBook" element={<AddBook />}/>

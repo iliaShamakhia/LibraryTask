@@ -1,5 +1,6 @@
 ﻿using Data.DTOs;
 using Data.Repositories;
+using Data.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,11 @@ namespace WebApi.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly AuthorRepository _authorRepo;
-        public AuthorsController(AuthorRepository authorRepo)
+        private readonly AuthorValidator _validator;
+        public AuthorsController(AuthorRepository authorRepo, AuthorValidator validator)
         {
             _authorRepo = authorRepo;
+            _validator = validator;
         }
 
         [Authorize]
@@ -48,6 +51,11 @@ namespace WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] AuthorDTO value)
         {
+            var state = _validator.Validate(value);
+            if (value == null || !state.IsValid)
+            {
+                return BadRequest(state.Errors);
+            }
             var author = await _authorRepo.GetByIdAsync(id);
 
             if (author == null)
@@ -65,6 +73,11 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] AuthorDTO value)
         {
+            var state = _validator.Validate(value);
+            if (value == null || !state.IsValid)
+            {
+                return BadRequest(state.Errors);
+            }
             await _authorRepo.Create(value);
             return Ok();
 

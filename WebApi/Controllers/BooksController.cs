@@ -1,5 +1,6 @@
 ﻿using Data.DTOs;
 using Data.Repositories;
+using Data.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,11 @@ namespace WebApi.Controllers
     public class BooksController : ControllerBase
     {
         private readonly BookRepository _bookrepo;
-        public BooksController( BookRepository bookrepo)
+        private readonly BookValidator _validator;
+        public BooksController(BookRepository bookrepo, BookValidator validator)
         {
             _bookrepo = bookrepo;
+            _validator = validator;
         }
 
         [Authorize]
@@ -48,6 +51,11 @@ namespace WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, [FromBody] BookDTO value)
         {
+            var state = _validator.Validate(value);
+            if (value == null || !state.IsValid)
+            {
+                return BadRequest(state.Errors);
+            }
             var book = await _bookrepo.GetByIdAsync(id);
 
             if (book == null)
@@ -64,6 +72,11 @@ namespace WebApi.Controllers
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] BookDTO value)
         {
+            var state = _validator.Validate(value);
+            if (value == null || !state.IsValid)
+            {
+                return BadRequest(state.Errors);
+            }
             await _bookrepo.Create(value);
             return Ok();
         }
