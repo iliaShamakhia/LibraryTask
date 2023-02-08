@@ -49,7 +49,7 @@ function EditAuthor(){
                     <label htmlFor="birthYear" className="form-label">Date of Birth</label>
                     <DatePicker onChange={(val) => handleAuthorDateChange(val)} value={author.birthYear} />
                 </div>
-                <button type="submit" className="btn btn-primary">Add Author</button>
+                <button type="submit" className="btn btn-primary">Edit Author</button>
             </form>
         </div>
     );

@@ -3,12 +3,14 @@ import { useLocation } from "react-router-dom";
 import { deleteBook } from "../helpers/books";
 import { useNavigate, Link } from "react-router-dom";
 import { editBook } from "../helpers/books";
+import { isAuthenticated } from "../helpers/authentication";
 
 
 function BookDetail() {
     const location = useLocation();
     const [book, setBook] = useState({});
     const navigate = useNavigate();
+    const hasLoggedIn = isAuthenticated();
 
     useEffect(() => {
         setBook(location.state);
@@ -44,11 +46,11 @@ function BookDetail() {
                         <p className="card-text">Rating: {book.rating}</p>
                         <p className="card-text">Date Published: {book.publishDate?.substring(0,10)}</p>
                         <p className="card-text">Is Available: {book.isAvailable?"Yes": "No"}</p>
-                        <div>
+                        {hasLoggedIn && <div>
                             <button type="button" className="btn btn-success m-2" onClick={takeBook}>Take</button>
                             <Link to={`/books/edit/${book.id}`} className="btn btn-success m-2" state={book}>Edit</Link>
                             <button type="button" className="btn btn-danger m-2" onClick={delBook}>Delete</button>
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>
